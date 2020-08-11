@@ -1,0 +1,37 @@
+/*
+Disable Bootswatch fonts loading and use
+packaged, offline font files instead.
+*/
+$web-font-path: 'data:text/css;base64,';
+
+// Fixes for Bootswatch
+$dropdown-link-color: rgba(0, 0, 0, .75);
+
+// SEPView specific
+$chart-height: 25em;
+$animation-duration: .5s;
+
+// LUM specific color scheme
+$primary: #139839; // 34%
+$link-hover-color: #0e712a; // 25%
+$link-hover-decoration: none;
+$input-focus-border-color: $primary;
+$input-btn-focus-color: rgba(19, 152, 57, 0.50);
+$close-color: black;
+
+$primary-color-on-hover: #108c34; // 30%
+$primary-border-color-on-hover: #0c6625;
+$primary-color-on-hover: #118833; // 30%
+$secondary-color: #118833; // 25%
+$info-color: #d2f9de; // 90%
+$link-text-color: #0e712a; // 25%
+$box-shadow-on-focus: 0 0 0 0.2rem rgba(19, 152, 57, 0.50);
+$info-primary: #16b644; // 40%
+$info-secondary: #149f3b; // 35%
+$info-primary-hover: #149f3b; // 35%
+
+// Bootsrap & bootswatch
+@import "~bootswatch/dist/lumen/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";

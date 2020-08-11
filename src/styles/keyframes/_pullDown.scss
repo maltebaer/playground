@@ -1,0 +1,9 @@
+@keyframes pullDown {
+    from {
+        transform: scaleY(.5);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}

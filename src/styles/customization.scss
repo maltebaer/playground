@@ -1,0 +1,218 @@
+@import "./variables";
+
+// Just a green class
+.green {
+    background-color: $primary;
+}
+
+// Adding colored border to navbar
+.navbar {
+    border-width: 0 0 4px 0;
+    border-color: $primary;
+}
+
+// Changing primary button colors on hover
+.btn-primary:hover {
+    background-color: $primary-color-on-hover;
+    border-color: $primary-border-color-on-hover;
+}
+
+// Adding primary color scheme to active buttons
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    color: white;
+    background-color: $primary;
+    border-color: $secondary-color;
+}
+
+// Adding green focus to buttons
+.btn:focus,
+.btn.focus,
+.btn:active,
+.btn.active:focus {
+    outline: 0;
+    box-shadow: $box-shadow-on-focus;
+}
+
+// Adding green focus to activated buttons
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn
+    .show
+    > .btn-primary.dropdown-toggle:focus
+    .btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn .show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: $box-shadow-on-focus;
+}
+
+.btn-link {
+    text-transform: none;
+}
+
+// Overwriting badge defaults
+.badge-primary {
+    background-color: $primary;
+}
+
+.card-header > a {
+    color: black;
+}
+
+// Overwriting bg primary
+.bg-primary {
+    background-color: $primary !important;
+    border-color: $secondary-color;
+}
+
+.bg-info {
+    background-color: $info-color !important;
+    color: black !important;
+}
+
+// Overwriting table defaults
+.table .thead-dark th {
+    background-color: $primary;
+    border-color: $primary;
+    color: white;
+}
+
+// task buttons
+// btn margin
+.task-btn {
+    margin-right: 2.5px;
+}
+
+.btn-danger {
+    color: white !important;
+}
+
+.list-group {
+    margin-bottom: 20px;
+}
+
+// BS4 moves table caption to bottom, we want it at the top
+caption {
+    caption-side: top;
+}
+
+// Make axis title bold to avoid blurry text
+svg .axis > text.title {
+    font-weight: bolder;
+}
+
+// Add has-button class to card-header to align buttons
+.card-header.has-buttons {
+    display: flex;
+    padding-right: $card-spacer-y;
+
+    & > *:first-child {
+        flex-grow: 1;
+        align-self: center;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    & > *:not(:first-child) {
+        @media print {
+            display: none;
+        }
+    }
+
+    .btn,
+    .btn-group {
+        white-space: nowrap;
+    }
+}
+
+// Uses white text on card-headers
+.card-header.bg-primary,
+.card-header.bg-success,
+.card-header.bg-danger,
+.card-header.bg-warning,
+.card-header.bg-info,
+.card-header.bg-primary > a:not(.btn) {
+    color: $white !important;
+}
+
+// Expands the link to take full space of the card footer to make it easier to click
+.card-footer.single-href {
+    padding: 0;
+    height: auto;
+
+    a {
+        width: 100%;
+        display: block;
+        padding: $card-spacer-y $card-spacer-x;
+    }
+}
+
+// Center align columns except the first column
+table.table-center {
+    th:not(:first-child),
+    td:not(:first-child) {
+        text-align: center;
+    }
+}
+
+// Right align columns except the first column
+table.table-right {
+    th:not(:first-child),
+    td:not(:first-child) {
+        text-align: right;
+    }
+}
+
+// Center align columns except the first 2 columns
+table.table-right-2 {
+    th:nth-child(n + 3),
+    td:nth-child(n + 3) {
+        text-align: right;
+    }
+}
+
+// Manual stripping of rows when we use multiple rows for the same object
+tr.striped {
+    background-color: $table-accent-bg;
+}
+
+// Make table header links (used for sorting) visible when using dark table headers
+.thead-dark th a {
+    color: $white;
+}
+
+// Add top margin to all pages
+.container,
+.npm startcontainer-fluid {
+    margin-top: $spacer * 2;
+}
+
+.info-dl {
+    display: flex;
+    flex-wrap: wrap;
+
+    dt {
+        text-align: right;
+        max-width: 40%;
+        flex-basis: 40%;
+        padding-left: map-get($spacers, 2);
+        padding-right: map-get($spacers, 2);
+    }
+
+    dd {
+        max-width: 60%;
+        flex-basis: 60%;
+        padding-left: map-get($spacers, 2);
+        padding-right: map-get($spacers, 2);
+    }
+}
+
+// Fixing wrong position of validation icon after build
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    background-position: right calc(0.375em + 0.1875rem) center;
+}
