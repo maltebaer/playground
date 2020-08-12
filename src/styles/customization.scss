@@ -216,3 +216,14 @@ tr.striped {
 .form-control.is-invalid {
     background-position: right calc(0.375em + 0.1875rem) center;
 }
+
+form label.required:after {
+    color: red;
+    content: " *";
+}
+
+// TODO: Move to dedicated ValidatedForm.module.scss file
+#required-info:before {
+    color: red;
+    content: "* ";
+}
