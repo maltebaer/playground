@@ -24,20 +24,6 @@ const config = {
                 },
             },
             {
-                test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: "css-loader",
-                        options: {
-                            importLoaders: 1,
-                        },
-                    },
-                    "postcss-loader",
-                ],
-                exclude: /\.module\.css$/,
-            },
-            {
                 test: /\.ts(x)?$/,
                 loader: "ts-loader",
                 exclude: /node_modules/,
