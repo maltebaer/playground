@@ -5,7 +5,7 @@ import SubmitInfo from "./shared/SubmitInfo";
 import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
 
 interface ISingleFormProps {
-    useValidation: boolean;
+    currentState: boolean;
 }
 
 interface ISingleFormState {
@@ -45,7 +45,31 @@ class SingleForm extends React.PureComponent<
         const state = this.state;
 
         return !state.success ? (
-            this.props.useValidation ? (
+            this.props.currentState ? (
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            id="name"
+                            type="text"
+                            required={true}
+                            value={state.name}
+                            onChange={this.setName}
+                            className="form-control"
+                        />
+                        <div className="invalid-feedback">
+                            Please provide a name!
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={state.name === ""}
+                    >
+                        Submit
+                    </button>
+                </form>
+            ) : (
                 <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
                     <div className="form-group">
                         <label htmlFor="name" className="required">
@@ -68,33 +92,6 @@ class SingleForm extends React.PureComponent<
                         Submit
                     </button>
                 </ValidatedForm>
-            ) : (
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="name" className="required">
-                            Name
-                        </label>
-                        <input
-                            id="name"
-                            type="text"
-                            required={true}
-                            value={state.name}
-                            onChange={this.setName}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a name!
-                        </div>
-                    </div>
-                    <RequiredInfo />
-                    <button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={state.name === ""}
-                    >
-                        Submit
-                    </button>
-                </form>
             )
         ) : (
             <div className="h-100 d-flex justify-content-center align-items-center">

@@ -12,21 +12,21 @@ class App extends React.Component {
                 <h1>Single-line Form</h1>
                 <div className="row">
                     <div className="col">
-                        <SingleForm useValidation={true} />
+                        <SingleForm currentState={true} />
                     </div>
                     <div className="col">
-                        <SingleForm useValidation={false} />
+                        <SingleForm currentState={false} />
                     </div>
                 </div>
                 <div className="row pt-3">
                     <div className="col">
                         <ModalWrapper>
-                            <SingleForm useValidation={true} />
+                            <SingleForm currentState={true} />
                         </ModalWrapper>
                     </div>
                     <div className="col">
                         <ModalWrapper>
-                            <SingleForm useValidation={false} />
+                            <SingleForm currentState={false} />
                         </ModalWrapper>
                     </div>
                 </div>
@@ -34,21 +34,21 @@ class App extends React.Component {
                 <h1>Mulit-line Form</h1>
                 <div className="row">
                     <div className="col">
-                        <MultiForm useValidation={true} />
+                        <MultiForm currentState={true} />
                     </div>
                     <div className="col">
-                        <MultiForm useValidation={false} />
+                        <MultiForm currentState={false} />
                     </div>
                 </div>
                 <div className="row pt-3">
                     <div className="col">
                         <ModalWrapper>
-                            <MultiForm useValidation={true} />
+                            <MultiForm currentState={true} />
                         </ModalWrapper>
                     </div>
                     <div className="col">
                         <ModalWrapper>
-                            <MultiForm useValidation={false} />
+                            <MultiForm currentState={false} />
                         </ModalWrapper>
                     </div>
                 </div>

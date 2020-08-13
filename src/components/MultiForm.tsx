@@ -3,46 +3,63 @@ import React from "react";
 
 import SubmitInfo from "./shared/SubmitInfo";
 import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
+import StressType, {FractureStressTypes} from "./shared/StressType";
+import {throws} from "assert";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 interface IMulitFormProps {
-    useValidation: boolean;
+    currentState: boolean;
 }
 
 interface IMulitFormState {
     name: string;
-    email: string;
-    phone?: number;
+    notes: string;
+    material: string;
+
+    mass: number;
+    area: number;
+    distance: number;
+
+    stressType: FractureStressTypes;
+
     success?: boolean;
 }
 
 class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
-    public readonly state: IMulitFormState = {
+    private readonly validatedForm = React.createRef<ValidatedForm>();
+
+    public state: IMulitFormState = {
+        area: 78.54,
+        distance: 68.35,
+        mass: 21.47,
+        material: "",
         name: "",
-        email: "",
+        notes: "",
+        stressType: FractureStressTypes.Tensile,
     };
 
     @boundMethod
-    public setName(e: React.ChangeEvent<HTMLInputElement>) {
+    public setTextValue(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
 
-        this.setState({name: e.target.value});
+        this.setState({
+            [e.target.id]: e.target.value,
+        } as any);
     }
-    @boundMethod
-    public setEmail(e: React.ChangeEvent<HTMLInputElement>) {
-        e.preventDefault();
 
-        this.setState({email: e.target.value});
+    @boundMethod
+    public setStressType(stressType: FractureStressTypes) {
+        this.setState({stressType});
     }
+
     @boundMethod
-    public setPhone(e: React.ChangeEvent<HTMLInputElement>) {
+    public setNumberValue(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
 
-        const phone = Number(e.target.value);
-        if (isNaN(phone)) {
-            return;
-        }
-
-        this.setState({phone});
+        this.setState({
+            [e.target.id]: e.target.valueAsNumber,
+        } as any);
     }
 
     @boundMethod
@@ -53,9 +70,13 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
     @boundMethod
     public resetForm() {
         this.setState({
+            area: 78.54,
+            distance: 68.35,
+            mass: 21.47,
+            material: "",
             name: "",
-            email: "",
-            phone: undefined,
+            notes: "",
+            stressType: FractureStressTypes.Tensile,
             success: false,
         });
     }
@@ -64,116 +85,271 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
         const state = this.state;
 
         return !state.success ? (
-            this.props.useValidation ? (
-                <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
-                    <div className="form-group">
-                        <label htmlFor="name" className="required">
-                            Name
-                        </label>
-                        <input
-                            id="name"
-                            type="text"
-                            required={true}
-                            value={state.name}
-                            onChange={this.setName}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a name!
+            this.props.currentState ? (
+                <ValidatedForm
+                    onSubmit={this.onSubmit}
+                    ref={this.validatedForm}
+                    focusOnMount={false}
+                >
+                    <div className="form-row">
+                        <div className="form-group col-sm">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                id="name"
+                                type="text"
+                                className="form-control"
+                                required={true}
+                                value={state.name}
+                                onChange={this.setTextValue}
+                            />
+                            <div className="invalid-feedback">
+                                Stamp Name is required!
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm">
+                            <label htmlFor="material">Adherend Material</label>
+                            <input
+                                id="material"
+                                type="text"
+                                className="form-control"
+                                required={true}
+                                value={state.material}
+                                onChange={this.setTextValue}
+                            />
+                            <div className="invalid-feedback">
+                                Adherend Material is required!
+                            </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="email" className="required">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            required={true}
-                            value={state.email}
-                            onChange={this.setEmail}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a valid Email address!
+
+                    <div className="form-row">
+                        <div className="form-group col-sm">
+                            <label htmlFor="notes">Notes</label>
+                            <input
+                                id="notes"
+                                type="text"
+                                className="form-control"
+                                value={state.notes}
+                                onChange={this.setTextValue}
+                            />
+                        </div>
+
+                        <div className="form-group col-sm">
+                            <label>Stress Type</label>
+                            <div className="form-group">
+                                <div className="form-check form-check-inline">
+                                    <StressType
+                                        id="tensile"
+                                        value={state.stressType}
+                                        onChecked={this.setStressType}
+                                        model={FractureStressTypes.Tensile}
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="tensile"
+                                    >
+                                        Tensile Stress
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <StressType
+                                        id="shear"
+                                        value={state.stressType}
+                                        onChecked={this.setStressType}
+                                        model={FractureStressTypes.Shear}
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="shear"
+                                    >
+                                        Shear Stress
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                            id="phone"
-                            type="tel"
-                            pattern="[0-9]{6}"
-                            value={state.phone}
-                            onChange={this.setPhone}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a 6-digit phone number!
+
+                    <div className="form-row">
+                        <div className="col-sm">
+                            <label htmlFor="mass">Mass in g</label>
+                            <input
+                                type="number"
+                                id="mass"
+                                className="form-control"
+                                value={state.mass}
+                                onChange={this.setNumberValue}
+                            />
+                        </div>
+
+                        <div className="col-sm">
+                            <label htmlFor="distance">Distance in mm</label>
+                            <input
+                                type="number"
+                                id="distance"
+                                className="form-control"
+                                value={state.distance}
+                                onChange={this.setNumberValue}
+                            />
+                        </div>
+
+                        <div className="col-sm">
+                            <label htmlFor="area">Adhesive area in mm²</label>
+                            <input
+                                type="number"
+                                id="area"
+                                className="form-control"
+                                value={state.area}
+                                onChange={this.setNumberValue}
+                            />
                         </div>
                     </div>
-                    <RequiredInfo />
-                    <button type="submit" className="btn btn-primary">
-                        Submit
-                    </button>
+                    <hr />
+
+                    <div className="d-flex mt-3">
+                        <div className="ml-auto">
+                            <button type="submit" className="btn btn-primary">
+                                <FontAwesomeIcon icon={faSave} /> Save
+                            </button>{" "}
+                            <button type="button" className="btn btn-secondary">
+                                <FontAwesomeIcon icon={faTimes} /> Cancel
+                            </button>{" "}
+                        </div>
+                    </div>
                 </ValidatedForm>
             ) : (
-                <form onSubmit={this.onSubmit} noValidate={true}>
-                    <div className="form-group">
-                        <label htmlFor="name" className="required">
-                            Name
-                        </label>
-                        <input
-                            id="name"
-                            type="text"
-                            required={true}
-                            value={state.name}
-                            onChange={this.setName}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a name!
+                <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
+                    <div className="form-row">
+                        <div className="form-group col-sm">
+                            <label htmlFor="name" className="required">
+                                Name
+                            </label>
+                            <input
+                                id="name"
+                                type="text"
+                                className="form-control"
+                                required={true}
+                                value={state.name}
+                                onChange={this.setTextValue}
+                            />
+                            <div className="invalid-feedback">
+                                Stamp Name is required!
+                            </div>
+                        </div>
+
+                        <div className="form-group col-sm">
+                            <label htmlFor="material" className="required">
+                                Adherend Material
+                            </label>
+                            <input
+                                id="material"
+                                type="text"
+                                className="form-control"
+                                required={true}
+                                value={state.material}
+                                onChange={this.setTextValue}
+                            />
+                            <div className="invalid-feedback">
+                                Adherend Material is required!
+                            </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="email" className="required">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            required={true}
-                            value={state.email}
-                            onChange={this.setEmail}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a valid Email-address!
+
+                    <div className="form-row">
+                        <div className="form-group col-sm">
+                            <label htmlFor="notes">Notes</label>
+                            <input
+                                id="notes"
+                                type="text"
+                                className="form-control"
+                                value={state.notes}
+                                onChange={this.setTextValue}
+                            />
+                        </div>
+
+                        <div className="form-group col-sm">
+                            <label>Stress Type</label>
+                            <div className="form-group">
+                                <div className="form-check form-check-inline">
+                                    <StressType
+                                        id="tensile"
+                                        value={state.stressType}
+                                        onChecked={this.setStressType}
+                                        model={FractureStressTypes.Tensile}
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="tensile"
+                                    >
+                                        Tensile Stress
+                                    </label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <StressType
+                                        id="shear"
+                                        value={state.stressType}
+                                        onChecked={this.setStressType}
+                                        model={FractureStressTypes.Shear}
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor="shear"
+                                    >
+                                        Shear Stress
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                            id="phone"
-                            type="tel"
-                            pattern="[0-9]{6}"
-                            value={state.phone}
-                            onChange={this.setPhone}
-                            className="form-control"
-                        />
-                        <div className="invalid-feedback">
-                            Please provide a 6-digit phone number!
+
+                    <div className="form-row">
+                        <div className="col-sm">
+                            <label htmlFor="mass">Mass in g</label>
+                            <input
+                                type="number"
+                                id="mass"
+                                className="form-control"
+                                value={state.mass}
+                                onChange={this.setNumberValue}
+                            />
+                        </div>
+
+                        <div className="col-sm">
+                            <label htmlFor="distance">Distance in mm</label>
+                            <input
+                                type="number"
+                                id="distance"
+                                className="form-control"
+                                value={state.distance}
+                                onChange={this.setNumberValue}
+                            />
+                        </div>
+
+                        <div className="col-sm">
+                            <label htmlFor="area">Adhesive area in mm²</label>
+                            <input
+                                type="number"
+                                id="area"
+                                className="form-control"
+                                value={state.area}
+                                onChange={this.setNumberValue}
+                            />
                         </div>
                     </div>
-                    <RequiredInfo />
-                    <button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={state.name === "" || state.email === ""}
-                    >
-                        Submit
-                    </button>
-                </form>
+                    <hr />
+
+                    <div className="d-flex mt-3">
+                        <RequiredInfo />
+                        <div className="ml-auto">
+                            <button type="submit" className="btn btn-primary">
+                                <FontAwesomeIcon icon={faSave} /> Save
+                            </button>{" "}
+                            <button type="button" className="btn btn-secondary">
+                                <FontAwesomeIcon icon={faTimes} /> Cancel
+                            </button>{" "}
+                        </div>
+                    </div>
+                </ValidatedForm>
             )
         ) : (
             <div className="h-100 d-flex justify-content-center align-items-center">
