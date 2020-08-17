@@ -1,12 +1,11 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {boundMethod} from "autobind-decorator";
 import React from "react";
 
 import SubmitInfo from "./shared/SubmitInfo";
 import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
 import StressType, {FractureStressTypes} from "./shared/StressType";
-import {throws} from "assert";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSave, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 interface IMulitFormProps {
     currentState: boolean;
@@ -26,18 +25,18 @@ interface IMulitFormState {
     success?: boolean;
 }
 
-class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
-    private readonly validatedForm = React.createRef<ValidatedForm>();
+const DEFAULT_STATE: IMulitFormState = {
+    area: 78.54,
+    distance: 68.35,
+    mass: 21.47,
+    material: "",
+    name: "",
+    notes: "",
+    stressType: FractureStressTypes.Tensile,
+};
 
-    public state: IMulitFormState = {
-        area: 78.54,
-        distance: 68.35,
-        mass: 21.47,
-        material: "",
-        name: "",
-        notes: "",
-        stressType: FractureStressTypes.Tensile,
-    };
+class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
+    public state = DEFAULT_STATE;
 
     @boundMethod
     public setTextValue(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,16 +68,7 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
     @boundMethod
     public resetForm() {
-        this.setState({
-            area: 78.54,
-            distance: 68.35,
-            mass: 21.47,
-            material: "",
-            name: "",
-            notes: "",
-            stressType: FractureStressTypes.Tensile,
-            success: false,
-        });
+        this.setState({...DEFAULT_STATE, success: undefined});
     }
 
     public render() {
@@ -86,11 +76,7 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
         return !state.success ? (
             this.props.currentState ? (
-                <ValidatedForm
-                    onSubmit={this.onSubmit}
-                    ref={this.validatedForm}
-                    focusOnMount={false}
-                >
+                <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
                     <div className="form-row">
                         <div className="form-group col-sm">
                             <label htmlFor="name">Name</label>
@@ -272,28 +258,28 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                             <div className="form-group">
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="tensile"
+                                        id="tensile-2"
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Tensile}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="tensile"
+                                        htmlFor="tensile-2"
                                     >
                                         Tensile Stress
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="shear"
+                                        id="shear-2"
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Shear}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="shear"
+                                        htmlFor="shear-2"
                                     >
                                         Shear Stress
                                     </label>
@@ -359,4 +345,4 @@ class MulitForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
     }
 }
 
-export default MulitForm;
+export default MultiForm;
