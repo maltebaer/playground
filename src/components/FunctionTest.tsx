@@ -41,8 +41,6 @@ interface IFunctionTestProps {
     minWavelength: number;
 
     onEvaluated(isValid: boolean): void;
-
-    currentState: boolean;
 }
 
 interface IFunctionTestState {
