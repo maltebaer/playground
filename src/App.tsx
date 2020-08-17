@@ -5,6 +5,7 @@ import SingleForm from "./components/SingleForm";
 import MultiForm from "./components/MultiForm";
 import ModalWrapper from "./components/shared/ModalWrapper";
 import MultiFormLiveCurrent from "./components/MultiFormLiveCurrent";
+import MultiFormLive from "./components/MultiFormLive";
 
 class App extends React.Component {
     render() {
@@ -85,7 +86,9 @@ class App extends React.Component {
                     <div className={`col ${cardClass}`}>
                         <MultiFormLiveCurrent />
                     </div>
-                    <div className={`col ${cardClass}`}></div>
+                    <div className={`col ${cardClass}`}>
+                        <MultiFormLive />
+                    </div>
                 </div>
             </div>
         );
