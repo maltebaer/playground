@@ -9,6 +9,10 @@ import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
 import FunctionTest, {PropertyTypes} from "./FunctionTest";
 import SubmitInfo from "./shared/SubmitInfo";
 
+interface IMultiFormLiveProps {
+    id: number;
+}
+
 interface IMultiFormLiveState {
     formula: string;
     notes: string;
@@ -36,7 +40,10 @@ const DEFAULT_STATE: IMultiFormLiveState = {
     isValid: false,
 };
 
-class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
+class MultiFormLive extends React.PureComponent<
+    IMultiFormLiveProps,
+    IMultiFormLiveState
+> {
     public readonly state = DEFAULT_STATE;
 
     private readonly requiredInput = React.createRef<HTMLInputElement>();
@@ -70,10 +77,6 @@ class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
 
     @boundMethod
     public setValidationState(isValid: boolean) {
-        // if (isValid === this.state.isValid) {
-        //     return;
-        // }
-
         const input = this.requiredInput.current!;
         if (isValid) {
             input.setCustomValidity("");
@@ -126,7 +129,6 @@ class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
         );
     }
 
-    // TODO: Only show one error message at a time
     private renderInvalidError() {
         const state = this.state;
 
@@ -139,57 +141,59 @@ class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
             return null;
         }
 
-        const wasValidated = form.classList.contains("was-validated");
-
-        if (wasValidated) {
+        if (form.classList.contains("was-validated")) {
             return null;
         }
 
         return state.formula !== "" && !state.isValid ? (
-            <small className="form-text text-danger">
-                Function is invalid!!!
+            <small className="form-text text-danger hide-after-validation">
+                Function is invalid!
             </small>
         ) : null;
     }
 
     private renderInputs() {
+        const {id} = this.props;
         const state = this.state;
 
         return (
             <div className="modal-body">
                 <div className="form-group row">
-                    <label className="col-3 required" htmlFor="function-2">
+                    <label
+                        className="col-3 required"
+                        htmlFor={`function-${id}`}
+                    >
                         Function
                     </label>
                     <div className="col">
                         <input
                             ref={this.requiredInput}
                             type="text"
-                            id="function-2"
+                            id={`function-${id}`}
                             className="form-control"
                             required={true}
                             value={state.formula}
                             onChange={this.setFormula}
                         />
+                        {this.renderInvalidError()}
                         <div className="invalid-feedback">
                             {state.formula === ""
                                 ? "Function is missing"
                                 : "Function is invalid!"}
                         </div>
-                        {this.renderInvalidError()}
                         {this.renderFormulaNotes()}
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-3" htmlFor="minTemp-2">
+                    <label className="col-3" htmlFor={`min-temp-${id}`}>
                         Minimum Temperature
                     </label>
                     <div className="col-3">
                         <input
                             type="number"
                             className="form-control"
-                            id="minTemp-2"
+                            id={`min-temp-${id}`}
                             min={-273}
                             max={499}
                             value={state.minTemperature}
@@ -197,14 +201,14 @@ class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
                         />
                     </div>
 
-                    <label className="col-3" htmlFor="maxTemp">
+                    <label className="col-3" htmlFor={`max-temp-${id}`}>
                         Maximum Temperature
                     </label>
                     <div className="col-3">
                         <input
                             type="number"
                             className="form-control"
-                            id="maxTemperature"
+                            id={`max-temp-${id}`}
                             min={-272}
                             max={500}
                             value={state.maxTemperature}
@@ -214,12 +218,12 @@ class MultiFormLive extends React.PureComponent<{}, IMultiFormLiveState> {
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-3" htmlFor="notes">
+                    <label className="col-3" htmlFor={`notes-${id}`}>
                         Source / Comments
                     </label>
                     <div className="col">
                         <textarea
-                            id="notes"
+                            id={`notes-${id}`}
                             className="form-control"
                             value={state.notes}
                             onChange={this.setNotes}

@@ -227,3 +227,7 @@ form label.required:after {
     color: red;
     content: "* ";
 }
+
+.was-validated .form-control:invalid + .hide-after-validation {
+    display: none;
+}
