@@ -5,6 +5,7 @@ import SubmitInfo from "./shared/SubmitInfo";
 import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
 
 interface ISingleFormProps {
+    id: number;
     currentState: boolean;
 }
 
@@ -42,15 +43,16 @@ class SingleForm extends React.PureComponent<
     }
 
     public render() {
+        const props = this.props;
         const state = this.state;
 
         return !state.success ? (
-            this.props.currentState ? (
+            props.currentState ? (
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor={`name-${props.id}`}>Name</label>
                         <input
-                            id="name"
+                            id={`name-${props.id}`}
                             type="text"
                             required={true}
                             value={state.name}
@@ -72,11 +74,14 @@ class SingleForm extends React.PureComponent<
             ) : (
                 <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
                     <div className="form-group">
-                        <label htmlFor="name" className="required">
+                        <label
+                            htmlFor={`name_${props.id}`}
+                            className="required"
+                        >
                             Name
                         </label>
                         <input
-                            id="name"
+                            id={`name_${props.id}`}
                             type="text"
                             required={true}
                             value={state.name}

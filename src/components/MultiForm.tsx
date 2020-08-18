@@ -8,6 +8,7 @@ import ValidatedForm, {RequiredInfo} from "./shared/ValidatedForm";
 import StressType, {FractureStressTypes} from "./shared/StressType";
 
 interface IMulitFormProps {
+    id: number;
     currentState: boolean;
 }
 
@@ -72,16 +73,17 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
     }
 
     public render() {
+        const props = this.props;
         const state = this.state;
 
         return !state.success ? (
-            this.props.currentState ? (
+            props.currentState ? (
                 <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
                     <div className="form-row">
                         <div className="form-group col-sm">
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor={`name-${props.id}`}>Name</label>
                             <input
-                                id="name"
+                                id={`name-${props.id}`}
                                 type="text"
                                 className="form-control"
                                 required={true}
@@ -94,9 +96,11 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="form-group col-sm">
-                            <label htmlFor="material">Adherend Material</label>
+                            <label htmlFor={`material-${props.id}`}>
+                                Adherend Material
+                            </label>
                             <input
-                                id="material"
+                                id={`material-${props.id}`}
                                 type="text"
                                 className="form-control"
                                 required={true}
@@ -111,9 +115,9 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
                     <div className="form-row">
                         <div className="form-group col-sm">
-                            <label htmlFor="notes">Notes</label>
+                            <label htmlFor={`notes-${props.id}`}>Notes</label>
                             <input
-                                id="notes"
+                                id={`notes-${props.id}`}
                                 type="text"
                                 className="form-control"
                                 value={state.notes}
@@ -126,28 +130,28 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                             <div className="form-group">
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="tensile"
+                                        id={`tensile-${props.id}`}
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Tensile}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="tensile"
+                                        htmlFor={`tensile-${props.id}`}
                                     >
                                         Tensile Stress
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="shear"
+                                        id={`shear-${props.id}`}
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Shear}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="shear"
+                                        htmlFor={`shear-${props.id}`}
                                     >
                                         Shear Stress
                                     </label>
@@ -158,10 +162,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
                     <div className="form-row">
                         <div className="col-sm">
-                            <label htmlFor="mass">Mass in g</label>
+                            <label htmlFor={`mass-${props.id}`}>
+                                Mass in g
+                            </label>
                             <input
                                 type="number"
-                                id="mass"
+                                id={`mass-${props.id}`}
                                 className="form-control"
                                 value={state.mass}
                                 onChange={this.setNumberValue}
@@ -169,10 +175,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="col-sm">
-                            <label htmlFor="distance">Distance in mm</label>
+                            <label htmlFor={`distance-${props.id}`}>
+                                Distance in mm
+                            </label>
                             <input
                                 type="number"
-                                id="distance"
+                                id={`distance-${props.id}`}
                                 className="form-control"
                                 value={state.distance}
                                 onChange={this.setNumberValue}
@@ -180,10 +188,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="col-sm">
-                            <label htmlFor="area">Adhesive area in mm²</label>
+                            <label htmlFor={`area-${props.id}`}>
+                                Adhesive area in mm²
+                            </label>
                             <input
                                 type="number"
-                                id="area"
+                                id={`area-${props.id}`}
                                 className="form-control"
                                 value={state.area}
                                 onChange={this.setNumberValue}
@@ -207,11 +217,14 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                 <ValidatedForm onSubmit={this.onSubmit} focusOnMount={false}>
                     <div className="form-row">
                         <div className="form-group col-sm">
-                            <label htmlFor="name" className="required">
+                            <label
+                                htmlFor={`name_${props.id}`}
+                                className="required"
+                            >
                                 Name
                             </label>
                             <input
-                                id="name"
+                                id={`name_${props.id}`}
                                 type="text"
                                 className="form-control"
                                 required={true}
@@ -224,11 +237,14 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="form-group col-sm">
-                            <label htmlFor="material" className="required">
+                            <label
+                                htmlFor={`material_${props.id}`}
+                                className="required"
+                            >
                                 Adherend Material
                             </label>
                             <input
-                                id="material"
+                                id={`material_${props.id}`}
                                 type="text"
                                 className="form-control"
                                 required={true}
@@ -243,9 +259,9 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
                     <div className="form-row">
                         <div className="form-group col-sm">
-                            <label htmlFor="notes">Notes</label>
+                            <label htmlFor={`notes_${props.id}`}>Notes</label>
                             <input
-                                id="notes"
+                                id={`notes_${props.id}`}
                                 type="text"
                                 className="form-control"
                                 value={state.notes}
@@ -258,28 +274,28 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                             <div className="form-group">
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="tensile-2"
+                                        id={`tensile_${props.id}`}
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Tensile}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="tensile-2"
+                                        htmlFor={`tensile_${props.id}`}
                                     >
                                         Tensile Stress
                                     </label>
                                 </div>
                                 <div className="form-check form-check-inline">
                                     <StressType
-                                        id="shear-2"
+                                        id={`shear_${props.id}`}
                                         value={state.stressType}
                                         onChecked={this.setStressType}
                                         model={FractureStressTypes.Shear}
                                     />
                                     <label
                                         className="form-check-label"
-                                        htmlFor="shear-2"
+                                        htmlFor={`shear_${props.id}`}
                                     >
                                         Shear Stress
                                     </label>
@@ -290,10 +306,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
 
                     <div className="form-row">
                         <div className="col-sm">
-                            <label htmlFor="mass">Mass in g</label>
+                            <label htmlFor={`mass_${props.id}`}>
+                                Mass in g
+                            </label>
                             <input
                                 type="number"
-                                id="mass"
+                                id={`mass_${props.id}`}
                                 className="form-control"
                                 value={state.mass}
                                 onChange={this.setNumberValue}
@@ -301,10 +319,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="col-sm">
-                            <label htmlFor="distance">Distance in mm</label>
+                            <label htmlFor={`distance_${props.id}`}>
+                                Distance in mm
+                            </label>
                             <input
                                 type="number"
-                                id="distance"
+                                id={`distance_${props.id}`}
                                 className="form-control"
                                 value={state.distance}
                                 onChange={this.setNumberValue}
@@ -312,10 +332,12 @@ class MultiForm extends React.PureComponent<IMulitFormProps, IMulitFormState> {
                         </div>
 
                         <div className="col-sm">
-                            <label htmlFor="area">Adhesive area in mm²</label>
+                            <label htmlFor={`area_${props.id}`}>
+                                Adhesive area in mm²
+                            </label>
                             <input
                                 type="number"
-                                id="area"
+                                id={`area_${props.id}`}
                                 className="form-control"
                                 value={state.area}
                                 onChange={this.setNumberValue}

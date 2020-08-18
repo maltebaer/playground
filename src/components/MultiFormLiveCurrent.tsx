@@ -9,6 +9,10 @@ import ValidatedForm from "./shared/ValidatedForm";
 import FunctionTest, {PropertyTypes} from "./FunctionTest";
 import SubmitInfo from "./shared/SubmitInfo";
 
+interface IMultiFormLiveCurrentProps {
+    id: number;
+}
+
 interface IMultiFormLiveCurrentState {
     formula: string;
     notes: string;
@@ -37,7 +41,7 @@ const DEFAULT_STATE: IMultiFormLiveCurrentState = {
 };
 
 class MultiFormLiveCurrent extends React.PureComponent<
-    {},
+    IMultiFormLiveCurrentProps,
     IMultiFormLiveCurrentState
 > {
     public readonly state = DEFAULT_STATE;
@@ -133,18 +137,19 @@ class MultiFormLiveCurrent extends React.PureComponent<
     }
 
     private renderInputs() {
+        const {id} = this.props;
         const state = this.state;
 
         return (
             <div className="modal-body">
                 <div className="form-group row">
-                    <label className="col-3" htmlFor="function">
+                    <label className="col-3" htmlFor={`function-${id}`}>
                         Function
                     </label>
                     <div className="col">
                         <input
                             type="text"
-                            id="function"
+                            id={`function-${id}`}
                             className="form-control"
                             required={true}
                             value={state.formula}
@@ -156,14 +161,14 @@ class MultiFormLiveCurrent extends React.PureComponent<
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-3" htmlFor="minTemp">
+                    <label className="col-3" htmlFor={`min-temp-${id}`}>
                         Minimum Temperature
                     </label>
                     <div className="col-3">
                         <input
                             type="number"
                             className="form-control"
-                            id="minTemperature"
+                            id={`min-temp-${id}`}
                             min={-273}
                             max={499}
                             value={state.minTemperature}
@@ -171,14 +176,14 @@ class MultiFormLiveCurrent extends React.PureComponent<
                         />
                     </div>
 
-                    <label className="col-3" htmlFor="maxTemp">
+                    <label className="col-3" htmlFor={`max-temp-${id}`}>
                         Maximum Temperature
                     </label>
                     <div className="col-3">
                         <input
                             type="number"
                             className="form-control"
-                            id="maxTemperature"
+                            id={`max-temp-${id}`}
                             min={-272}
                             max={500}
                             value={state.maxTemperature}
@@ -188,12 +193,12 @@ class MultiFormLiveCurrent extends React.PureComponent<
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-3" htmlFor="notes">
+                    <label className="col-3" htmlFor={`notes-${id}`}>
                         Source / Comments
                     </label>
                     <div className="col">
                         <textarea
-                            id="notes"
+                            id={`notes-${id}`}
                             className="form-control"
                             value={state.notes}
                             onChange={this.setNotes}

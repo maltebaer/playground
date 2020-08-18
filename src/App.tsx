@@ -28,21 +28,21 @@ class App extends React.Component {
                 </div>
                 <div className="row">
                     <div className={`col ${cardClass}`}>
-                        <SingleForm currentState={true} />
+                        <SingleForm id={1} currentState={true} />
                     </div>
                     <div className={`col ${cardClass}`}>
-                        <SingleForm currentState={false} />
+                        <SingleForm id={2} currentState={false} />
                     </div>
                 </div>
                 <div className="row">
                     <div className={`col ${cardClass}`}>
                         <ModalWrapper>
-                            <SingleForm currentState={true} />
+                            <SingleForm id={3} currentState={true} />
                         </ModalWrapper>
                     </div>
                     <div className={`col ${cardClass}`}>
                         <ModalWrapper>
-                            <SingleForm currentState={false} />
+                            <SingleForm id={4} currentState={false} />
                         </ModalWrapper>
                     </div>
                 </div>
@@ -58,21 +58,21 @@ class App extends React.Component {
                 </div>
                 <div className="row">
                     <div className={`col ${cardClass}`}>
-                        <MultiForm currentState={true} />
+                        <MultiForm id={5} currentState={true} />
                     </div>
                     <div className={`col ${cardClass}`}>
-                        <MultiForm currentState={false} />
+                        <MultiForm id={6} currentState={false} />
                     </div>
                 </div>
                 <div className="row">
                     <div className={`col ${cardClass}`}>
                         <ModalWrapper>
-                            <MultiForm currentState={true} />
+                            <MultiForm id={7} currentState={true} />
                         </ModalWrapper>
                     </div>
                     <div className={`col ${cardClass}`}>
                         <ModalWrapper>
-                            <MultiForm currentState={false} />
+                            <MultiForm id={8} currentState={false} />
                         </ModalWrapper>
                     </div>
                 </div>
@@ -84,10 +84,22 @@ class App extends React.Component {
                 </div>
                 <div className="row">
                     <div className={`col ${cardClass}`}>
-                        <MultiFormLiveCurrent />
+                        <MultiFormLiveCurrent id={9} />
                     </div>
                     <div className={`col ${cardClass}`}>
-                        <MultiFormLive />
+                        <MultiFormLive id={10} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className={`col ${cardClass}`}>
+                        <ModalWrapper>
+                            <MultiFormLiveCurrent id={11} />
+                        </ModalWrapper>
+                    </div>
+                    <div className={`col ${cardClass}`}>
+                        <ModalWrapper>
+                            <MultiFormLive id={12} />
+                        </ModalWrapper>
                     </div>
                 </div>
             </div>
